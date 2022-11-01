@@ -63,13 +63,13 @@ model.fit(x=[X,images], y=dummy_y,
     epochs=10, batch_size=128,
     verbose = 1)
 
-validdf = pd.read_csv("shufflevalidlitl.csv")
-validX = validdf.drop(["AllTaxa"], axis = 1)
-validY = validdf["AllTaxa"]
+testdf = pd.read_csv("shuffletestlitl.csv")
+testX = testdf.drop(["AllTaxa"], axis = 1)
+testY = testdf["AllTaxa"]
 encoder = LabelEncoder()
-encoder.fit(validY)
-encoded_validY = encoder.transform(validY)
+encoder.fit(testY)
+encoded_testY = encoder.transform(testY)
 # convert integers to dummy variables (i.e. one hot encoded)
-dummy_validY = np_utils.to_categorical(encoded_validY)
+dummy_testY = np_utils.to_categorical(encoded_testY)
 
-preds = model.predict([validX, validimages])
+preds = model.predict([testX, testimages])
