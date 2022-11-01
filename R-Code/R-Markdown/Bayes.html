@@ -378,9 +378,9 @@ required to train the model.</p>
                 data = train)</code></pre>
 <p>After loading the training and testing data sets made in
 <strong>Normalize</strong>, the model is trained.</p>
-<pre class="r"><code>validLabels = valid$AllTaxa
-bayespred = predict(bayes, as.matrix(allvalidData[,1:49]))
-bayesconfmat = confusionMatrix(as.factor(bayespred), as.factor(validLabels))</code></pre>
+<pre class="r"><code>testLabels = test$AllTaxa
+bayespred = predict(bayes, as.matrix(alltestData[,1:49]))
+bayesconfmat = confusionMatrix(as.factor(bayespred), as.factor(testLabels))</code></pre>
 <p>Once the model is trained, predictions are made and performance
 metrics are measured using <code>confusionMatrix</code>.</p>
 <p>The same code can be used for Order level model by switching all

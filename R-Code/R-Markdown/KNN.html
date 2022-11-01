@@ -379,9 +379,9 @@ classification model.</p>
 <strong>Normalize</strong>, the model is trained. The KNN model is tuned
 using <em>k</em> values between 1-25, skipping even-numbered integers to
 reduce training time.</p>
-<pre class="r"><code>validLabels = valid$AllTaxa
-knnpred = predict(knn, as.matrix(allvalidData[,1:49]))
-knnconfmat = confusionMatrix(as.factor(knnpred), as.factor(validLabels))</code></pre>
+<pre class="r"><code>testLabels = test$AllTaxa
+knnpred = predict(knn, as.matrix(alltestData[,1:49]))
+knnconfmat = confusionMatrix(as.factor(knnpred), as.factor(testLabels))</code></pre>
 <p>Once the model is trained, predictions are made and performance
 metrics are measured using <code>confusionMatrix</code>.</p>
 <p>The same code can be used for Order level model by switching all

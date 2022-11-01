@@ -374,10 +374,10 @@ library(Matrix)</code></pre>
 <p>The <code>caret</code>, <code>xgboost</code>, and <code>Matrix</code>
 libraries are required to train the model.</p>
 <pre class="r"><code>trainLabels = train$AllTaxa
-validLabels = valid$AllTaxa
+testLabels = test$AllTaxa
 
 trainlab = as.numeric(trainLabels) - 1
-validlab = as.numeric(validLabels) - 1
+testlab = as.numeric(testLabels) - 1
 
 dtrain &lt;- xgb.DMatrix(label = trainlab, data = as.matrix(trainData[,1:49]))
 watchlist = list(train=dtrain)</code></pre>
@@ -401,7 +401,7 @@ to be output for the model’s classifications, allowing metrics such as
 top 3 accuracy to be measured.</p>
 <pre class="r"><code>litls = levels(as.factor(trainLabels))
 
-preds = predict(model, as.matrix(valid[,c(1:49)]))
+preds = predict(model, as.matrix(test[,c(1:49)]))
 preds = matrix(preds, nrow = numclass)
 preds = t(preds)
 preds = as.data.frame(preds)
@@ -410,7 +410,7 @@ predname = c()
 for(i in 1:nrow(preds)){
   predname[i] = names(which.max(preds[i,]))
 }
-xgbconfmat = confusionMatrix(as.factor(predname), validlab)</code></pre>
+xgbconfmat = confusionMatrix(as.factor(predname), testlab)</code></pre>
 <p>Unlike other models which only provide a vector of top-1
 classification labels, a ‘softprob’ XGBoost model outputs a vector of
 classification probabilities for all classes. After saving this vector

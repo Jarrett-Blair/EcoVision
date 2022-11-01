@@ -379,7 +379,7 @@ allname = names(which(alltable &lt;= 99))
 
 #Train:Test ratio is 7:3, so I am initializing those values here
 fractionTraining = 0.70
-fractionvalid = 0.30
+fractiontest = 0.30
 
 seeds = 2833</code></pre>
 <p>The function <code>%!in%</code> is effectively the opposite of
@@ -401,31 +401,31 @@ set.</p>
 
 # Compute sample sizes.
 sampleSizeTraining = floor(fractionTraining * nrow(invert))
-sampleSizevalid = floor(fractionvalid * nrow(invert))
+sampleSizetest = floor(fractiontest * nrow(invert))
 # Create the randomly-sampled indices for the dataframe. Use setdiff() to
 # avoid overlapping subsets of indices.
 indicesTraining = sort(sample(seq_len(nrow(invert)), size=sampleSizeTraining))
-indicesvalid = setdiff(seq_len(nrow(invert)), indicesTraining)
+indicestest = setdiff(seq_len(nrow(invert)), indicesTraining)
 
-# Finally, output the three dataframes for training, validation and valid.
+# Finally, output the three dataframes for training, testing, and zero shot
 dfTraining = invert[indicesTraining, ]
-dfvalid = invert[indicesvalid, ]
+dftest = invert[indicestest, ]
 
 set = subset(dfTraining, AllTaxa %!in% allname)
 alltrain = set
 
-set = subset(dfvalid, AllTaxa %!in% allname)
-allvalid = set
+set = subset(dftest, AllTaxa %!in% allname)
+alltest = set
 
 allzero = subset(invert, AllTaxa %in% allname)
-# write.csv(allvalid, &quot;valid.csv&quot;, row.names = F)
+# write.csv(alltest, &quot;test.csv&quot;, row.names = F)
 # write.csv(alltrain, &quot;train.csv&quot;, row.names = F)
 # write.csv(allzero, &quot;zero.csv&quot;, row.names = F)</code></pre>
 <p>Most of the code in this chunk is adapted from [<a href="https://stackoverflow.com/a/36068968/18022123" class="uri">https://stackoverflow.com/a/36068968/18022123</a>].</p>
-<p>After splitting into <code>dfTraining</code> and
-<code>dfvalid</code>, these data frames are subset by removing uncommon
-LITL labels. The resulting data sets are typically then written as
-.csv’s for later use.</p>
+<p>After splitting into <code>dfTraining</code> and <code>dftest</code>,
+these data frames are subset by removing uncommon LITL labels. The
+resulting data sets are typically then written as .csv’s for later
+use.</p>
 </div>
 <div id="order-split" class="section level2">
 <h2>Order Split</h2>
@@ -436,33 +436,33 @@ from the LITL split will be discussed in detail.</p>
 ordername = names(which(ordertable &lt;= 99))
 
 fractionTraining   &lt;- 0.70
-fractionvalid       &lt;- 0.30
+fractiontest       &lt;- 0.30
 
 seeds = c(2833)</code></pre>
 <pre class="r"><code>set.seed(seeds)
 
 # Compute sample sizes.
 sampleSizeTraining   &lt;- floor(fractionTraining   * nrow(invert))
-sampleSizevalid       &lt;- floor(fractionvalid       * nrow(invert))
+sampleSizetest       &lt;- floor(fractiontest       * nrow(invert))
 # Create the randomly-sampled indices for the dataframe. Use setdiff() to
 # avoid overlapping subsets of indices.
 indicesTraining    &lt;- sort(sample(seq_len(nrow(invert)), size=sampleSizeTraining))
 indicesNotTraining &lt;- setdiff(seq_len(nrow(invert)), indicesTraining)
-indicesvalid  &lt;- sort(sample(indicesNotTraining, size=sampleSizevalid))
+indicestest  &lt;- sort(sample(indicesNotTraining, size=sampleSizetest))
 
-# Finally, output the three dataframes for training, validation and valid.
+# Finally, output the three dataframes for training, testing and zero shot.
 dfTraining   &lt;- invert[indicesTraining, ]
-dfvalid       &lt;- invert[indicesvalid, ]
+dftest       &lt;- invert[indicestest, ]
 
 &#39;%!in%&#39; &lt;- function(x,y)!(&#39;%in%&#39;(x,y))
 
 
 dfTraining = subset(dfTraining, Order %!in% c(&#39;indet.&#39;, ordername))
-dfvalid = subset(dfvalid, Order %!in% c(&#39;indet.&#39;, ordername))
+dftest = subset(dftest, Order %!in% c(&#39;indet.&#39;, ordername))
 dfzero = subset(invert, Order %in% c(&#39;indet.&#39;, ordername))
 
 
-# write.csv(dfvalid, &quot;ordervalid.csv&quot;, row.names = F)
+# write.csv(dftest, &quot;ordertest.csv&quot;, row.names = F)
 # write.csv(dftrain, &quot;ordertrain.csv&quot;, row.names = F)
 # write.csv(dfzero, &quot;orderzero.csv&quot;, row.names = F)</code></pre>
 <p>Individuals labelled as ‘indet.’ at the order level are removed as

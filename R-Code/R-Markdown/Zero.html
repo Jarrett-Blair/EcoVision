@@ -399,21 +399,21 @@ taxonomic level and each row represents an observation. The
 <code>simpzero</code> hierarchy.</p>
 <pre class="r"><code>zerolabs = zero$AllTaxa
 
-validhierarchy = data.frame(matrix(NA, nrow =length(zerolabs), ncol = 6))
-validhierarchy[,1] = zerolabs
+testhierarchy = data.frame(matrix(NA, nrow =length(zerolabs), ncol = 6))
+testhierarchy[,1] = zerolabs
 for(i in 2:6){
-  for(j in 1:nrow(validhierarchy)){
-    validhierarchy[j,i] = simpzero[which(simpzero[,i-1] == validhierarchy[j,i-1])[1], i]
+  for(j in 1:nrow(testhierarchy)){
+    testhierarchy[j,i] = simpzero[which(simpzero[,i-1] == testhierarchy[j,i-1])[1], i]
   }
 }  </code></pre>
 <p><code>zerolabs</code> is a vector of label names for the zero shot
-observations. The <code>validhierarchy</code> <code>for</code> loop
+observations. The <code>testhierarchy</code> <code>for</code> loop
 provides the same function as the <code>predont</code> loop, but rather
 than creating a classification hierarchy, it is creating a hierarchy of
 ground-truth labels for each zero shot observation.</p>
 <pre class="r"><code>simpzero$known = NA
 for(i in 1:nrow(simpzero)){
-  simpzero$known[i] = which(simpzero[i,] %in% levels(validlab))[1]
+  simpzero$known[i] = which(simpzero[i,] %in% levels(testlab))[1]
 } </code></pre>
 <p>Here we are adding an additional column to <code>simpzero</code>
 called ‘known’ which indicates which level each class has a label known
@@ -422,8 +422,8 @@ to the LITL level models until the order level (‘Coleoptera’), so the
 ‘Elateridae’ row has a ‘known’ value of 4 (Order is the 4th column).</p>
 <pre class="r"><code>count = c()
 for(i in 1:length(zerolabs)){
-  level = simpzero$known[which(simpzero[,1] == validhierarchy[i,1])]
-  count[i] = predont[i,level] == validhierarchy[i,level]
+  level = simpzero$known[which(simpzero[,1] == testhierarchy[i,1])]
+  count[i] = predont[i,level] == testhierarchy[i,level]
 }
 
 accuracy = count/nrow(zero)</code></pre>

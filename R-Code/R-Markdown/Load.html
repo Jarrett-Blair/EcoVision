@@ -11,7 +11,7 @@
 
 
 
-<title>Normalize.r</title>
+<title>Load</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -361,79 +361,21 @@ pre code {
 
 
 
-<h1 class="title toc-ignore">Normalize.r</h1>
+<h1 class="title toc-ignore">Load</h1>
 
 </div>
 
 
-<p>The package <code>caret</code> is required for data normalization</p>
-<pre class="r"><code>library(caret)</code></pre>
-<p><strong>Normalize.r</strong> prunes and normalizes the training and
-testing data sets created in <strong>Split.r</strong>.</p>
-<pre class="r"><code>remove = c(1:8,13,14,23:40,65,69:71,78,79)
-coldex = c(1:49)
+<div id="load.r" class="section level2">
+<h2>Load.r</h2>
+<p><strong>Load.r</strong> initializes the training and testing data
+frames from saved data sets.</p>
+<pre class="r"><code>alltrainData = read.csv(&quot;normalltrain.csv&quot;, stringsAsFactors = T)
+alltestData = read.csv(&quot;normalltest.csv&quot;, stringsAsFactors = T)
 
-#Load in data sets created in Split.r
-train = as.data.frame(read.csv(&quot;train.csv&quot;))
-test = as.data.frame(read.csv(&quot;test.csv&quot;))
-
-test = test[,-remove]
-train = train[,-remove]
-zero = zero[-remove]
-
-train[,coldex] = lapply(train[,coldex], as.numeric)
-test[,coldex] = lapply(test[,coldex], as.numeric)
-zero[,coldex] = lapply(zero[,coldex], as.numeric)
-
-normParam = preProcess(train)
-norm.test = predict(normParam, test)
-norm.train = predict(normParam, train)
-norm.zero = predict(normParam, zero)
-
-# write.csv(norm.test, &quot;normtest.csv&quot;, row.names = F)
-# write.csv(norm.train, &quot;normtrain.csv&quot;, row.names = F)
-# write.csv(norm.zero, &quot;normzero.csv&quot;, row.names = F)</code></pre>
-<p>Superfluous columns (i.e. any character data besides input label,
-some morphometric data (e.g. ROI x,y coordinates)) are indexed by
-<code>allremove</code> and removed. Remaining morphometric/contextual
-metadata is set as numeric.</p>
-<p>The training and testing data sets are centered and scaled
-(i.e. variables have a mean of 0 and standard deviation of 1). The test
-data set is scaled proportional to the training data.</p>
-<p>The same code can be reused for order-level and zero shot code, but
-with their respective training/testing/zero-shot files.</p>
-<pre class="r"><code>library(dplyr)
-remove = c(1:8,13,14,23:31,33:40,65,69:71,78,79,84)
-coldex = c(1:49)
-
-#Load in data sets created in Split.r
-train = as.data.frame(read.csv(&quot;ordertrain.csv&quot;))
-test = as.data.frame(read.csv(&quot;ordertest.csv&quot;))
-zero = as.data.frame(read.csv(&quot;orderzero.csv&quot;))
-
-train = train %&gt;% relocate(Order, .before = AllTaxa)
-test = test %&gt;% relocate(Order, .before = AllTaxa)
-zero = zero %&gt;% relocate(Order, .before = AllTaxa)
-
-test = test[,-remove]
-train = train[,-remove]
-zero = zero[, -remove]
-
-train[,coldex] = lapply(train[,coldex], as.numeric)
-test[,coldex] = lapply(test[,coldex], as.numeric)
-zero[,coldex] = lapply(zero[,coldex], as.numeric)
-
-normParam = preProcess(train)
-norm.test = predict(normParam, test)
-norm.train = predict(normParam, train)
-norm.zero = predict(normParam, zero)
-
-# write.csv(norm.test, &quot;normordertest.csv&quot;, row.names = F)
-# write.csv(norm.train, &quot;normordertrain.csv&quot;, row.names = F)
-# write.csv(norm.zero, &quot;normorderzero.csv&quot;, row.names = F)</code></pre>
-<p>The only differences here are the use of <code>relocate</code> to
-move the ‘Order’ column to the end of the data frames and the different
-values for <code>remove</code>.</p>
+alltrainLabels = alltrainData[,1]
+alltestLabels = alltestData[,1]</code></pre>
+</div>
 
 
 

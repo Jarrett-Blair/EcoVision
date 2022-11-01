@@ -403,11 +403,11 @@ used instead of <code>file.rename</code> to preserve the original
 directory in case changes need to be made</p>
 <pre class="r"><code>split = vector(mode = &#39;character&#39;, length = nrow(invert))
 split[which(c(1:nrow(invert)) %in% indicesTraining &amp; invert$AllTaxa %!in% allname)] = &#39;training&#39;
-split[which(c(1:nrow(invert)) %in% indicesvalid &amp; invert$AllTaxa %!in% allname)] = &#39;validation&#39;
+split[which(c(1:nrow(invert)) %in% indicestest &amp; invert$AllTaxa %!in% allname)] = &#39;testing&#39;
 split[which(invert$AllTaxa %in% allname)] = &#39;zero&#39;</code></pre>
 <p>The <code>split</code> character vector records which dataset each
-specimen in <code>invert</code> was split to (i.e. training, validation
-or zero shot).</p>
+specimen in <code>invert</code> was split to (i.e. training, testing or
+zero shot).</p>
 <pre class="r"><code>sites = c()
 sitedex = 1
 for(filename in filenames){
@@ -434,7 +434,7 @@ the specimen currently represented by <code>filename</code> (i.e. which
 <code>invert</code> specimen matches the current photo).
 <code>taxa</code> is the label of the current specimen.
 <code>dataset</code> is the dataset the current specimen was split to
-(i.e. training, validation, or zero shot).</p>
+(i.e. training, testing, or zero shot).</p>
 <p>The next line copies the file to a new directory with the structure
 computer-vision –&gt; basedata –&gt; dataset (e.g. training) –&gt; taxa
 (e.g. Acari) –&gt; <code>filename</code></p>
