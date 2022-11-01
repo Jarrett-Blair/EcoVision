@@ -7,6 +7,6 @@ lda = train(AllTaxa ~.,
             metric = "Accuracy",
             data = train)
 
-validLabels = valid$AllTaxa
-ldapred = predict(lda, as.matrix(allvalidData[,1:49]))
-ldaconfmat = confusionMatrix(as.factor(ldapred), as.factor(validLabels))
+testLabels = test$AllTaxa
+ldapred = predict(lda, as.matrix(alltestData[,1:49]))
+ldaconfmat = confusionMatrix(as.factor(ldapred), as.factor(testLabels))

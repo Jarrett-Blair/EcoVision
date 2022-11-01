@@ -8,6 +8,6 @@ bayes = train(AllTaxa ~.,
               metric = "Accuracy",
               data = train)
 
-validLabels = valid$AllTaxa
-bayespred = predict(bayes, as.matrix(allvalidData[,1:49]))
-bayesconfmat = confusionMatrix(as.factor(bayespred), as.factor(validLabels))
+testLabels = test$AllTaxa
+bayespred = predict(bayes, as.matrix(alltestData[,1:49]))
+bayesconfmat = confusionMatrix(as.factor(bayespred), as.factor(testLabels))

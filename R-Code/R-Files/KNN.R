@@ -8,6 +8,6 @@ knn.morph = train(AllTaxa ~.,
                   metric = "Accuracy",
                   data = train)
 
-validLabels = valid$AllTaxa
-knnpred = predict(knn, as.matrix(allvalidData[,1:49]))
-knnconfmat = confusionMatrix(as.factor(knnpred), as.factor(validLabels))
+testLabels = test$AllTaxa
+knnpred = predict(knn, as.matrix(alltestData[,1:49]))
+knnconfmat = confusionMatrix(as.factor(knnpred), as.factor(testLabels))

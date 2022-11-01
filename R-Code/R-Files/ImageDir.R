@@ -23,7 +23,7 @@ my.file.rename <- function(from, to) {
 
 split = vector(mode = 'character', length = nrow(invert))
 split[which(c(1:nrow(invert)) %in% indicesTraining & invert$AllTaxa %!in% allname)] = 'training'
-split[which(c(1:nrow(invert)) %in% indicesvalid & invert$AllTaxa %!in% allname)] = 'validation'
+split[which(c(1:nrow(invert)) %in% indicestest & invert$AllTaxa %!in% allname)] = 'testing'
 split[which(invert$AllTaxa %in% allname)] = 'zero'
 
 

@@ -22,23 +22,23 @@ for(i in 2:6){
 
 zerolabs = zero$AllTaxa
 
-validhierarchy = data.frame(matrix(NA, nrow =length(zerolabs), ncol = 6))
-validhierarchy[,1] = zerolabs
+testhierarchy = data.frame(matrix(NA, nrow =length(zerolabs), ncol = 6))
+testhierarchy[,1] = zerolabs
 for(i in 2:6){
-  for(j in 1:nrow(validhierarchy)){
-    validhierarchy[j,i] = simpzero[which(simpzero[,i-1] == validhierarchy[j,i-1])[1], i]
+  for(j in 1:nrow(testhierarchy)){
+    testhierarchy[j,i] = simpzero[which(simpzero[,i-1] == testhierarchy[j,i-1])[1], i]
   }
 }  
 
 simpzero$known = NA
 for(i in 1:nrow(simpzero)){
-  simpzero$known[i] = which(simpzero[i,] %in% levels(validlab))[1]
+  simpzero$known[i] = which(simpzero[i,] %in% levels(testlab))[1]
 } 
 
 count = c()
 for(i in 1:length(zerolabs)){
-  level = simpzero$known[which(simpzero[,1] == validhierarchy[i,1])]
-  count[i] = predont[i,level] == validhierarchy[i,level]
+  level = simpzero$known[which(simpzero[,1] == testhierarchy[i,1])]
+  count[i] = predont[i,level] == testhierarchy[i,level]
 }
 
 accuracy = count/nrow(zero)
